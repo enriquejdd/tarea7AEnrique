@@ -30,7 +30,12 @@ public class main {
         String[] dias;
         String[] anios;
         String linea;
-        int contador = 0;
+
+        String fecha; // Guardar la fecha en un String
+        String d; // Guardar el dia en un String
+        int dia;
+        String a; // Guardar el año en un String
+        int anio;
 
         try (Scanner datosFichero = new Scanner(new FileReader(idFichero))) {
             datosFichero.nextLine();
@@ -53,30 +58,51 @@ public class main {
                 tmp.setPuesto(tokens[3]);
 
                 // Creamos un nuevo split para separar la fecha en dias, mes y año.
-                String fecha = tokens[4];
+                fecha = tokens[4];
 //                System.out.println(fecha);
                 fec = fecha.split("/");
 
                 // Una vez separado lo volvemos a separar para quitar las comillas iniciales.
-                String d = fec[0];
+                d = fec[0];
                 dias = d.split("");
-                int dia = Integer.valueOf(dias[1] + dias[2]);
+                dia = Integer.valueOf(dias[1] + dias[2]);
 //                System.out.println(dia);
 
                 // Repetimos con las comillas finales del año
-                String a = fec[2];
+                a = fec[2];
                 anios = a.split("");
-                int anio = Integer.valueOf(anios[0] + anios[1]+ anios[2] + anios[3]);
+                anio = Integer.valueOf(anios[0] + anios[1] + anios[2] + anios[3]);
 //                System.out.println(anio);                
-//                System.out.println(dia + ", " + fec[1] + ", " + anio);
-                tmp.setFechaIni(LocalDate.of(dia, Integer.valueOf(fec[1]), anio));
-                
-                
-                tmp.setNombre(tokens[0]);
-                tmp.setNombre(tokens[0]);
-                tmp.setNombre(tokens[0]);
-                tmp.setNombre(tokens[0]);
-                tmp.setNombre(tokens[0]);
+//                System.out.println(dia + "," + fec[1] + "," + anio);
+                tmp.setFechaIni(LocalDate.of(anio, Integer.valueOf(fec[1]), dia));
+
+                //Repetimos los mismos pasos que en el caso anterior y pero separando los que aun no se fueron y los que si.
+                // Para ello si su fecha de cese solo tiene 2 espacios (las comillas) es que aun esta como empleado, si no ya se fue.
+                if (tokens[5].length() == 2) {
+                    tmp.setFechaFin(LocalDate.MAX);
+                } else {
+                    fecha = tokens[5];
+                    fec = fecha.split("/");
+
+                    d = fec[0];
+                    dias = d.split("");
+                    dia = Integer.valueOf(dias[1] + dias[2]);
+//                    System.out.println(dia);
+
+                    a = fec[2];
+                    anios = a.split("");
+                    anio = Integer.valueOf(anios[0] + anios[1] + anios[2] + anios[3]);
+//                    System.out.println(dia + "," + fec[1] + "," + anio);
+
+                    tmp.setFechaFin(LocalDate.of(anio, Integer.valueOf(fec[1]), dia));
+                }
+
+                tmp.setTlf(tokens[6]);
+//                System.out.println(tokens[6]);
+                tmp.setEvaluador(Boolean.valueOf(tokens[7]));
+//                System.out.println(tokens[7]);
+                tmp.setCoord(Boolean.valueOf(tokens[8]));
+//                System.out.println(tokens[8]);
 
             }
 
