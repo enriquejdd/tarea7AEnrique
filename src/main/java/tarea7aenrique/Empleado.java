@@ -35,7 +35,7 @@ public class Empleado {
         this.evaluador = evaluador;
         this.coord = coord;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -102,7 +102,20 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "Empleado{" + "nombre=" + nombre + ", DNI=" + DNI + ", puesto=" + puesto + ", fechaIni=" + fechaIni + ", fechaFin=" + fechaFin + ", tlf=" + tlf + ", evaluador=" + evaluador + ", coord=" + coord + '}';
+        String siNoE;
+        if (evaluador) {
+            siNoE = "Sí";
+        } else {
+            siNoE = "No";
+        }
+        
+        String siNoC;
+        if (coord) {
+            siNoC = "Sí";
+        } else {
+            siNoC = "No";
+        }
+        return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + siNoE + "," + siNoC;
     }
 
 }
