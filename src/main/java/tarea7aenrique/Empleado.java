@@ -102,20 +102,16 @@ public class Empleado {
 
     @Override
     public String toString() {
-        String siNoE;
-        if (evaluador) {
-            siNoE = "Sí";
+
+        if (evaluador = true && coord == true) {
+            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "Sí" + "," + "Sí";
+        } else if (evaluador == true && coord == false) {
+            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "Sí" + "," + "No";
+        } else if (evaluador == false && coord == true) {
+            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "No" + "," + "Sí";
         } else {
-            siNoE = "No";
+            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "No" + "," + "No";
         }
-        
-        String siNoC;
-        if (coord) {
-            siNoC = "Sí";
-        } else {
-            siNoC = "No";
-        }
-        return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + siNoE + "," + siNoC;
     }
 
 }

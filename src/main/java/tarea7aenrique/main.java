@@ -63,9 +63,9 @@ public class main {
                 }
                 tmp.setTlf(quitarComillas(tokens[6]));
 //                System.out.println(tokens[6]);
-                tmp.setEvaluador(Boolean.valueOf(tokens[7]));
+                tmp.setEvaluador(verdaderoFalso(quitarComillas(tokens[7])));
 //                System.out.println(tokens[7]);
-                tmp.setCoord(Boolean.valueOf(tokens[8]));
+                tmp.setCoord(verdaderoFalso(quitarComillas(tokens[8])));
 //                System.out.println(tokens[8]);
 
                 empleados.add(tmp);
@@ -103,33 +103,31 @@ public class main {
 
         b) Repetir el apartado a) usando API Stream        
          */
-        
         // Contar el número de profesores de Informática.
         String infor = "Informática P.E.S.";
         int contador = 0;
         for (Empleado e : empleados) {
-            
+
             if (e.getPuesto().equals(infor)) {
                 contador++;
             }
         }
         System.out.println("El número de profesores de informática es " + contador);
         System.out.println("");
-        
+
         // Saber si algún profesor/a de Biología es también coordinador
-        String bio = "Biología y Geología P.E.S.";
+        String bio = "Bio";
         boolean cierto = false;
-        String siNo = "Sí";
         for (Empleado e : empleados) {
             // Existe 1 caso en el que si.
-            if (e.getPuesto().contains(bio) && "Sí".equals(e.getCoord()) {
+            if (e.getPuesto().contains(bio) && e.getCoord().equals(true)) {
                 cierto = true;
             }
         }
-        
-        if(cierto){
+
+        if (cierto) {
             System.out.println("Si existe un coordinador que de Biología");
-        }else{
+        } else {
             System.out.println("No existe un coordinador que de Biología");
         }
 
@@ -174,6 +172,10 @@ public class main {
         String nombreCompleto = a + "," + b;
 
         return nombreCompleto;
+    }
+
+    public static Boolean verdaderoFalso(String a) {
+        return !a.equals("No");
     }
 
     public static String quitarComillas(String a) {
