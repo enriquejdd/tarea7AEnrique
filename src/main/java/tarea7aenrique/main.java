@@ -6,12 +6,12 @@
 package tarea7aenrique;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,7 +31,7 @@ public class main {
         String[] tokens;
         String linea;
 
-        try (Scanner datosFichero = new Scanner(new FileReader(idFichero))) {
+        try (Scanner datosFichero = new Scanner(new File(idFichero), "ISO-8859-1")) {
             datosFichero.nextLine();
             while (datosFichero.hasNextLine()) {
 
@@ -42,16 +42,16 @@ public class main {
 
                 // Crear el string para el nombre completo.
                 // Creamos dos String que cogan el token 0 (Apellidos) y el tokens 1 (nombre) para juntarlo en el set
-                String ape = tokens[0];
+                String ape = quitarComillas(tokens[0]);
 //                System.out.println(ape);
-                String nombre = tokens[1];
+                String nombre = quitarComillas(tokens[1]);
 //                System.out.println(nombre);
                 tmp.setNombre(ape + "," + nombre);
 //              Otra manera sería usar el método creado abajo, pero veo más rápido y claro hacerlo directamente al solo necesitar unir 2 String.
 //              tmp.setNombre(crearNombre(tokens[0], tokens[1]));
 
-                tmp.setDNI(tokens[2]);
-                tmp.setPuesto(tokens[3]);
+                tmp.setDNI(quitarComillas(tokens[2]));
+                tmp.setPuesto(quitarComillas(tokens[3]));
                 // Usamos el método crearFecha el cual devuelve una fecha a partir del String dado con la fecha en él.
                 tmp.setFechaIni(crearFecha(tokens[4]));
 
@@ -61,7 +61,7 @@ public class main {
                 } else {
                     tmp.setFechaFin(crearFecha(tokens[5]));
                 }
-                tmp.setTlf(tokens[6]);
+                tmp.setTlf(quitarComillas(tokens[6]));
 //                System.out.println(tokens[6]);
                 tmp.setEvaluador(Boolean.valueOf(tokens[7]));
 //                System.out.println(tokens[7]);
@@ -75,6 +75,7 @@ public class main {
         }
 //        System.out.println(empleados.size());
 
+//        empleados.forEach(System.out::println);
         String nomFichero = "RelPerCen2.csv";
         LocalDate hoy = LocalDate.now();
         LocalDate añosAtras = LocalDate.of(hoy.getYear() - 20, hoy.getMonth(), hoy.getDayOfMonth());
@@ -82,7 +83,7 @@ public class main {
 
         try (BufferedWriter flujo = new BufferedWriter(new FileWriter(nomFichero))) {
             for (Empleado e : empleados) {
-                if (añosAtras.compareTo(e.getFechaIni()) > 0) {
+                if (añosAtras.compareTo(e.getFechaIni()) > 0 && e.getFechaFin().compareTo(LocalDate.MAX) == 0) {
                     flujo.write(e.toString());
                     flujo.newLine();
                 }
@@ -132,5 +133,18 @@ public class main {
         String nombreCompleto = a + "," + b;
 
         return nombreCompleto;
+    }
+
+    public static String quitarComillas(String a) {
+        String sinComillas = "";
+
+        String[] palabra;
+        palabra = a.split("");
+
+        for (int i = 1; i < palabra.length - 1; i++) {
+            sinComillas += palabra[i];
+        }
+
+        return sinComillas;
     }
 }
