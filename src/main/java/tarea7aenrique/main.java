@@ -74,8 +74,8 @@ public class main {
             System.out.println(e.getMessage());
         }
 //        System.out.println(empleados.size());
+        empleados.forEach(System.out::println);
 
-//        empleados.forEach(System.out::println);
         String nomFichero = "RelPerCen2.csv";
         LocalDate hoy = LocalDate.now();
         LocalDate añosAtras = LocalDate.of(hoy.getYear() - 20, hoy.getMonth(), hoy.getDayOfMonth());
@@ -92,6 +92,47 @@ public class main {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+        /*
+        AMPLIACIÓN DEL EJERCICIO.
+        a) Sin usar API Stream
+ - Contar el número de profesores de Informática.
+ - Saber si algún profesor/a de Biología es también coordinador
+ - Obtener una lista ordenada alfabéticamente con todos los apellidos de los empleados cuyo NIF contenga la letra N.
+ - Verificar que ningún profesor se llama "Jonh".
+
+        b) Repetir el apartado a) usando API Stream        
+         */
+        
+        // Contar el número de profesores de Informática.
+        String infor = "Informática P.E.S.";
+        int contador = 0;
+        for (Empleado e : empleados) {
+            
+            if (e.getPuesto().equals(infor)) {
+                contador++;
+            }
+        }
+        System.out.println("El número de profesores de informática es " + contador);
+        System.out.println("");
+        
+        // Saber si algún profesor/a de Biología es también coordinador
+        String bio = "Biología y Geología P.E.S.";
+        boolean cierto = false;
+        String siNo = "Sí";
+        for (Empleado e : empleados) {
+            // Existe 1 caso en el que si.
+            if (e.getPuesto().contains(bio) && "Sí".equals(e.getCoord()) {
+                cierto = true;
+            }
+        }
+        
+        if(cierto){
+            System.out.println("Si existe un coordinador que de Biología");
+        }else{
+            System.out.println("No existe un coordinador que de Biología");
+        }
+
     }
 
     // Método el cual a partir de un String de una fecha lo separa hasta obtener el dia, mes y año del string y devolverlo como un LocalDate.
