@@ -8,12 +8,16 @@ package tarea7aenrique;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -42,13 +46,10 @@ public class main {
 
                 // Crear el string para el nombre completo.
                 // Creamos dos String que cogan el token 0 (Apellidos) y el tokens 1 (nombre) para juntarlo en el set
-                String ape = quitarComillas(tokens[0]);
+                tmp.setApellidos(quitarComillas(tokens[0]));
 //                System.out.println(ape);
-                String nombre = quitarComillas(tokens[1]);
+                tmp.setNombre(quitarComillas(tokens[1]));
 //                System.out.println(nombre);
-                tmp.setNombre(ape + "," + nombre);
-//              Otra manera sería usar el método creado abajo, pero veo más rápido y claro hacerlo directamente al solo necesitar unir 2 String.
-//              tmp.setNombre(crearNombre(tokens[0], tokens[1]));
 
                 tmp.setDNI(quitarComillas(tokens[2]));
                 tmp.setPuesto(quitarComillas(tokens[3]));
@@ -74,7 +75,7 @@ public class main {
             System.out.println(e.getMessage());
         }
 //        System.out.println(empleados.size());
-        empleados.forEach(System.out::println);
+//        empleados.forEach(System.out::println);
 
         String nomFichero = "RelPerCen2.csv";
         LocalDate hoy = LocalDate.now();
@@ -103,6 +104,8 @@ public class main {
 
         b) Repetir el apartado a) usando API Stream        
          */
+        System.out.println("Sin API Stream");
+        System.out.println("");
         // Contar el número de profesores de Informática.
         String infor = "Informática P.E.S.";
         int contador = 0;
@@ -126,10 +129,60 @@ public class main {
         }
 
         if (cierto) {
-            System.out.println("Si existe un coordinador que de Biología");
+            System.out.println("Si existe un coordinador que de la asignatura de Biología");
         } else {
-            System.out.println("No existe un coordinador que de Biología");
+            System.out.println("No existe un coordinador que de la asignatura de Biología");
         }
+        System.out.println("");
+
+        // Obtener una lista ordenada alfabéticamente con todos los apellidos de los empleados cuyo NIF contenga la letra N.
+        ArrayList<Empleado> empl = new ArrayList<>();
+        Comparator<Empleado> criterioPrecio = (c1, c2) -> c1.getApellidos().compareTo(c2.getApellidos());
+        Collections.sort(empleados, criterioPrecio);
+
+        for (Empleado e : empleados) {
+            if (e.getDNI().contains("N")) {
+                empl.add(e);
+            }
+        }
+        empl.forEach(System.out::println);
+        System.out.println("");
+
+        // Verificar que ningún profesor se llama "Jonh".
+        int contadorJonh = 0;
+        for (Empleado e : empleados) {
+            if (e.getNombre().equals("Jonh")) {
+                contadorJonh++;
+            }
+        }
+        System.out.println("Existen en total " + contadorJonh + " trabajadores que se llamen Jonh");
+        System.out.println("");
+        System.out.println("");
+
+        // b) Repetir el apartado a) usando API Stream  
+        System.out.println("Con API Stream");
+        System.out.println("");
+
+        System.out.println("Número de empleados Informáticos " + empleados.stream().filter(p->p.getPuesto().equals(infor)).count());
+        System.out.println("");
+
+        // Saber si algún profesor/a de Biología es también coordinador
+        if(empleados.stream().filter(p -> p.getPuesto().contains("Biología") && p.getCoord().equals(true)).count() < 1){
+            System.out.println("No existe un coordinador que de la asignatura de Biología");
+        }else{
+            System.out.println("Si existe un coordinador que de la asignatura de Biología");
+            
+        }
+        System.out.println("");
+
+        // Obtener una lista ordenada alfabéticamente con todos los apellidos de los empleados cuyo NIF contenga la letra N.
+        System.out.println("Empleados con la letra N en el DNI");
+        empleados.stream().filter(p -> p.getDNI().contains("N")).sorted((p1, p2) -> p1.getApellidos().compareTo(p2.getApellidos())).collect(Collectors.toList()).forEach(System.out::println);
+        System.out.println("");
+
+        // Verificar que ningún profesor se llama "Jonh".
+        System.out.println("Existen en total " + empleados.stream().filter(p -> p.getNombre().contains("Jonh")).count() + " trabajadores que se llamen Jonh");
+        System.out.println("");
 
     }
 

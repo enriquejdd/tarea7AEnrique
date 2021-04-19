@@ -13,6 +13,7 @@ import java.time.LocalDate;
  */
 public class Empleado {
 
+    private String apellidos;
     private String nombre;
     private String DNI;
     private String puesto;
@@ -25,7 +26,8 @@ public class Empleado {
     public Empleado() {
     }
 
-    public Empleado(String nombre, String DNI, String puesto, LocalDate fechaIni, LocalDate fechaFin, String tlf, Boolean evaluador, Boolean coord) {
+    public Empleado(String apellidos, String nombre, String DNI, String puesto, LocalDate fechaIni, LocalDate fechaFin, String tlf, Boolean evaluador, Boolean coord) {
+        this.apellidos = apellidos;
         this.nombre = nombre;
         this.DNI = DNI;
         this.puesto = puesto;
@@ -100,18 +102,25 @@ public class Empleado {
         this.coord = coord;
     }
 
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
     @Override
     public String toString() {
 
         if (evaluador = true && coord == true) {
-            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "Sí" + "," + "Sí";
+            return apellidos + "," + nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "Sí" + "," + "Sí";
         } else if (evaluador == true && coord == false) {
-            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "Sí" + "," + "No";
+            return apellidos + "," + nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "Sí" + "," + "No";
         } else if (evaluador == false && coord == true) {
-            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "No" + "," + "Sí";
+            return apellidos + "," + nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "No" + "," + "Sí";
         } else {
-            return nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "No" + "," + "No";
+            return apellidos + "," + nombre + "," + DNI + "," + puesto + "," + fechaIni + "," + fechaFin + "," + tlf + "," + "No" + "," + "No";
         }
     }
-
 }
