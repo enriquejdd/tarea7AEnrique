@@ -177,13 +177,28 @@ public class main {
 
         // Obtener una lista ordenada alfabéticamente con todos los apellidos de los empleados cuyo NIF contenga la letra N.
         System.out.println("Empleados con la letra N en el DNI");
-        empleados.stream().filter(p -> p.getDNI().contains("N")).sorted((p1, p2) -> p1.getApellidos().compareTo(p2.getApellidos())).collect(Collectors.toList()).forEach(System.out::println);
+        List<String> listnom = empleados.stream().filter(p -> p.getDNI().contains("N")).map(p -> p.getApellidos()).sorted().collect(Collectors.toList());
+        listnom.forEach(System.out::println);
         System.out.println("");
 
         // Verificar que ningún profesor se llama "Jonh".
         System.out.println("Existen en total " + empleados.stream().filter(p -> p.getNombre().contains("Jonh")).count() + " trabajadores que se llamen Jonh");
         System.out.println("");
-
+        
+        // Lista de las fechas de Cese que hay en los empleados.
+        List<LocalDate> fechasCese = empleados.stream().map(p -> p.getFechaFin()).filter(p-> p != LocalDate.MAX).collect(Collectors.toList());
+        System.out.println("Fecha de cese de los empleados");
+        fechasCese.forEach(System.out::println);
+        System.out.println("");
+        
+        // Apellidos de los empleados que cesan mañana su trabajo.
+        int masUnDia = 1;
+        LocalDate fecManana= LocalDate.now().plusDays(masUnDia);
+        List<String> CeseMañana = empleados.stream().filter(p-> p.getFechaFin().equals(fecManana)).map(p -> p.getApellidos()).collect(Collectors.toList());
+        System.out.println("Apellidos de los empleados que cesan mañana su trabajo");
+        CeseMañana.forEach(System.out::println);
+        System.out.println("");
+        
     }
 
     // Método el cual a partir de un String de una fecha lo separa hasta obtener el dia, mes y año del string y devolverlo como un LocalDate.
